@@ -174,7 +174,7 @@ class CAR(Platforms):
     [FordCarDocs("Ford Ranger 2024", "Adaptive Cruise Control with Lane Centering", setup_video="https://www.youtube.com/watch?v=2oJlXCKYOy0")],
     CarSpecs(mass=2000, wheelbase=3.27, steerRatio=17.0),
   )
-  FORD_EDGE_2020 = FordPlatformConfig(
+  FORD_EDGE_MK2 = FordPlatformConfig(
     [FordCarDocs("Ford Edge 2020", "Adaptive Cruise Control with Lane Centering")],
     CarSpecs(mass=1836, wheelbase=2.7, steerRatio=13.0),
   )

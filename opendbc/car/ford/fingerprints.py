@@ -229,7 +229,7 @@ FW_VERSIONS = {
       b'RJ6T-14H102-BBB\x00\x00\x00\x00\x00\x00\x00\x00\x00',
     ],
   },
-  CAR.FORD_EDGE_2020: {
+  CAR.FORD_EDGE_MK2: {
     (Ecu.fwdCamera, 0x706, None): [
       b'KT4T-14F397-AE\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00',
     ],

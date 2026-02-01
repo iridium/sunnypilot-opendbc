@@ -2,7 +2,7 @@ from opendbc.can import CANDefine, CANParser
 from opendbc.car import Bus, create_button_events, structs
 from opendbc.car.common.conversions import Conversions as CV
 from opendbc.car.ford.fordcan import CanBus
-from opendbc.car.ford.values import DBC, CarControllerParams, FordFlags
+from opendbc.car.ford.values import DBC, CarControllerParams, FordFlags, CAR
 from opendbc.car.interfaces import CarStateBase
 
 from opendbc.sunnypilot.car.ford.mads import MadsCarState
@@ -32,7 +32,11 @@ class CarState(CarStateBase, MadsCarState):
 
     # Occasionally on startup, the ABS module recalibrates the steering pinion offset, so we need to block engagement
     # The vehicle usually recovers out of this state within a minute of normal driving
-    ret.vehicleSensorsInvalid = cp.vl["SteeringPinion_Data"]["StePinCompAnEst_D_Qf"] != 3
+    # Edge uses calibrated angle from IPMA instead of PSCM
+    if self.CP.flags & FordFlags.EDGE:
+      ret.vehicleSensorsInvalid = cp.vl["ParkAid_Data"]["ExtSteeringAngleReq2"] >= 32766
+    else:
+      ret.vehicleSensorsInvalid = cp.vl["SteeringPinion_Data"]["StePinCompAnEst_D_Qf"] != 3
 
     # car speed
     ret.vEgoRaw = cp.vl["BrakeSysFeatures"]["Veh_V_ActlBrk"] * CV.KPH_TO_MS
@@ -48,7 +52,10 @@ class CarState(CarStateBase, MadsCarState):
     ret.parkingBrake = cp.vl["DesiredTorqBrk"]["PrkBrkStatus"] in (1, 2)
 
     # steering wheel
-    ret.steeringAngleDeg = cp.vl["SteeringPinion_Data"]["StePinComp_An_Est"]
+    if self.CP.flags & FordFlags.EDGE:
+      ret.steeringAngleDeg = cp.vl["ParkAid_Data"]["ExtSteeringAngleReq2"]
+    else:
+      ret.steeringAngleDeg = cp.vl["SteeringPinion_Data"]["StePinComp_An_Est"]
     ret.steeringTorque = cp.vl["EPAS_INFO"]["SteeringColumnTorque"]
     ret.steeringPressed = self.update_steering_pressed(abs(ret.steeringTorque) > CarControllerParams.STEER_DRIVER_ALLOWANCE, 5)
     ret.steerFaultTemporary = cp.vl["EPAS_INFO"]["EPAS_Failure"] == 1

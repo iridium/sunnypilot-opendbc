@@ -47,6 +47,7 @@ class FordSafetyFlags(IntFlag):
 class FordFlags(IntFlag):
   # Static flags
   CANFD = 1
+  EDGE = 2
 
 
 class RADAR:
@@ -116,6 +117,13 @@ class FordF150LightningPlatform(FordCANFDPlatformConfig):
     self.car_docs = []
 
 
+@dataclass
+class FordEdgePlatformConfig(FordPlatformConfig):
+  def init(self):
+    super().init()
+    self.flags |= FordFlags.EDGE
+
+
 class CAR(Platforms):
   FORD_BRONCO_SPORT_MK1 = FordPlatformConfig(
     [FordCarDocs("Ford Bronco Sport 2021-24")],
@@ -174,9 +182,9 @@ class CAR(Platforms):
     [FordCarDocs("Ford Ranger 2024", "Adaptive Cruise Control with Lane Centering", setup_video="https://www.youtube.com/watch?v=2oJlXCKYOy0")],
     CarSpecs(mass=2000, wheelbase=3.27, steerRatio=17.0),
   )
-  FORD_EDGE_MK2 = FordPlatformConfig(
-    [FordCarDocs("Ford Edge 2020", "Adaptive Cruise Control with Lane Centering")],
-    CarSpecs(mass=1836, wheelbase=2.7, steerRatio=13.0),
+  FORD_EDGE_MK2 = FordEdgePlatformConfig(
+    [FordCarDocs("Ford Edge 2020-23", "Adaptive Cruise Control with Lane Centering")],
+    CarSpecs(mass=1933, wheelbase=2.824, steerRatio=15.3),
   )
 
 

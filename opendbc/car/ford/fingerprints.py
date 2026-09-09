@@ -233,9 +233,6 @@ FW_VERSIONS = {
     (Ecu.fwdCamera, 0x706, None): [
       b'KT4T-14F397-AE\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00',
     ],
-    (Ecu.shiftByWire, 0x732, None): [
-      b'KT4P-14G395-AG\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00',
-    ],
     (Ecu.abs, 0x760, None): [
       b'L2GC-2D053-BB\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00',
     ],

@@ -21,6 +21,7 @@ from opendbc.car.mg.values import CAR as MG
 # FIXME: add routes for these cars
 non_tested_cars = [
   MOCK.MOCK,
+  FORD.FORD_EDGE_MK2,
   GM.CADILLAC_ATS,
   GM.HOLDEN_ASTRA,
   GM.CHEVROLET_MALIBU,
